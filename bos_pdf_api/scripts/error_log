@@ -1,0 +1,11 @@
+[10-Apr-2023 18:27:31 Asia/Tokyo] PHP Warning:  require_once(classes/fpdf/fpdf.php): failed to open stream: No such file or directory in /home1/webwiqpq/public_html/WEB01/bos_pdf_api/scripts/test_uploader.php on line 13
+[10-Apr-2023 18:27:31 Asia/Tokyo] PHP Fatal error:  require_once(): Failed opening required 'classes/fpdf/fpdf.php' (include_path='.:/opt/cpanel/ea-php74/root/usr/share/pear') in /home1/webwiqpq/public_html/WEB01/bos_pdf_api/scripts/test_uploader.php on line 13
+[10-Apr-2023 18:28:27 Asia/Tokyo] PHP Fatal error:  Uncaught Exception: FPDF error: Unexpected end of stream in /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php:271
+Stack trace:
+#0 /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php(1404): FPDF->Error('Unexpected end ...')
+#1 /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php(1268): FPDF->_readstream(Resource id #7, 8)
+#2 /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php(1260): FPDF->_parsepngstream(Resource id #7, '/home1/webwiqpq...')
+#3 /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php(885): FPDF->_parsepng('/home1/webwiqpq...')
+#4 /home1/webwiqpq/public_html/WEB01/bos_pdf_api/scripts/test_uploader.php(122): FPDF->Image('/home1/webwiqpq...', 30, 48, 55, 14.705882352941)
+#5 {main}
+  thrown in /home1/webwiqpq/public_html/WEB01/bos_pdf_api/classes/fpdf/fpdf.php on line 271
