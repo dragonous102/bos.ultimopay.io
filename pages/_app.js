@@ -6,28 +6,22 @@ import Loading from '/components/Loading';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import RestrictedPage from '/components/RestrictedPage';
-import axios from '/lib/axios';
 
 function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+  useRouter();
   const [clientIP, setClientIP] = useState('');
   const [ServerIP, setServerIP] = useState('');
 
-  
   useEffect(() => {
     const fetchServerIP = async () => {
-      
       try {
         const iptestresponse = await fetch('/api/serverIP');
         const result = await iptestresponse.json();
         setServerIP(result.data);
         window.wIPGlobal = result.data;
-
-        // console.error('iptestresponse:', result.data);
       } catch (error) {
         console.error('Error fetching iptestresponse:', error);
       }
-      
     };
 
     fetchServerIP();
@@ -36,36 +30,32 @@ function MyApp({ Component, pageProps }) {
 
   useEffect(() => {
     const fetchClientIP = async () => {
-
+      console.log('GET_IP_URL:', process.env.NEXT_PUBLIC_GET_IP_URL);
       try {
-        const response = await fetch('https://dev-bos.ultimopay.io/bos_pdf_api/get_ip.php', {
-            headers: new Headers({
-                'X-Server-IP': ServerIP
-            }),
+        const response = await fetch(process.env.NEXT_PUBLIC_GET_IP_URL, {
+          headers: new Headers({
+            'X-Server-IP': ServerIP
+          }),
         });
         const data = await response.json();
         setClientIP(data.ip);
-        
       } catch (error) {
         console.error('Error fetching client IP:', error);
       }
-      
     };
 
     fetchClientIP();
   }, [ServerIP]);
 
-
-console.log(clientIP)
+  console.log(clientIP)
   const WrappedComponent = RestrictedPage(Component, clientIP);
 
   return (
-    <>
-      <NextNProgress />
-      {clientIP ? <WrappedComponent {...pageProps} /> : <Loading />}
-      <ToastContainer />
-
-    </>
+      <>
+        <NextNProgress />
+        {clientIP ? <WrappedComponent {...pageProps} /> : <Loading />}
+        <ToastContainer />
+      </>
   );
 }
 
