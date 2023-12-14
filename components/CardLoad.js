@@ -39,9 +39,18 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
 
       setInputValue(newValue);
 
-      if(parseFloat(newValue) >= parseFloat(minimum))
+      // Update availableAmount based on selected load type
+      if (loadType === standardLoadType) {
+        setLoadFee(defaultLoadFee);
+        setAvailableAmount( usdBalance / 1.01 );
+      } else {
+        setLoadFee(0);
+        setAvailableAmount( usdBalance );
+      }
+
+      if(parseFloat(newValue) >= minimum)
       {
-        if(parseFloat(usdBalance) < parseFloat(newValue))
+        if(availableAmount < parseFloat(newValue))
         {
           setError('amount' , {message : `You don't have enough USD to Load`})
         }
@@ -62,13 +71,35 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
     const selectedValue = e.target.value * 1;
     setLoadType(selectedValue);
 
+    let availableAmountSync;
     // Update loadFee based on selected load type
     if (selectedValue === standardLoadType) {
       setLoadFee(defaultLoadFee);
       setAvailableAmount( usdBalance / 1.01 );
+      availableAmountSync = usdBalance / 1.01;
     } else {
       setLoadFee(0);
       setAvailableAmount( usdBalance );
+      availableAmountSync = usdBalance;
+    }
+
+
+
+    if(availableAmountSync >= minimum)
+    {
+      console.log(selectedValue, availableAmountSync, inputValue);
+      if(availableAmountSync < inputValue)
+      {
+        setError('amount' , {message : `You don't have enough USD to Load`})
+      }
+      else{
+        setError('amount' , null)
+        errors.amount = false;
+      }
+    }
+    else
+    {
+      setError('amount' , {message : `Please enter more than minimum load amount`});
     }
   };
 
@@ -116,6 +147,17 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
     }
 
     if( inputValue > 0 ){
+
+      // Check validation for balance
+      if( inputValue > (Math.floor(availableAmount * 100) / 100) ){
+        Swal.fire({
+          title: 'Insufficient balance',
+          html: `Your balance ${(Math.floor(availableAmount * 100) / 100)} USD is insufficient <br/>to load ${inputValue} USD.`,
+          icon: "warning",
+        }).then(function () {});
+        return;
+      }
+
       return Swal.fire({
         title: title,
         //html: `You Pay ${inputValue} USD<br><em>The amount may vary slightly depending on the fluctuation.</em>`,
@@ -125,16 +167,6 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
         cancelButtonText: "No",
       }).then((result) => {
         if (result.isConfirmed){
-
-          // Check validation for balance
-          if( inputValue > (Math.floor(availableAmount * 100) / 100) ){
-            Swal.fire({
-              title: 'Insufficient balance',
-              html: `Your balance ${(Math.floor(availableAmount * 100) / 100)} USD is insufficient <br/>to load ${inputValue} USD.`,
-              icon: "warning",
-            }).then(function () {});
-            return;
-          }
 
           userService.showLoader(true);
 
