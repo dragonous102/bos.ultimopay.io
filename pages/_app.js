@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import Loading from '/components/Loading';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../public/assets/css/cardLoad.module.css';
 import RestrictedPage from '/components/RestrictedPage';
 
 function MyApp({ Component, pageProps }) {

@@ -7,16 +7,19 @@ import { userService } from '/services';
 import Swal from "sweetalert2";
 // import lodash debounce function
 import 'react-toastify/dist/ReactToastify.css';
+import styles from '../public/assets/css/cardLoad.module.css';
+
 
 function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
 
   const defaultLoadFee = 1;
   const standardLoadType = 1;
   const router = useRouter();
+  const usdBalance = allwallet[2].balance;
   const [inputValue, setInputValue] = useState(0);
   const [loadType, setLoadType] = useState(standardLoadType);
   const [loadFee, setLoadFee] = useState(defaultLoadFee);
-  const usdBalance = allwallet[2].balance;
+  const [availableAmount, setAvailableAmount] = useState(usdBalance * 0.99);
   const minimum = 100;
 
 
@@ -54,16 +57,18 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
     }
   }
 
-  // Event handler for the selectLoadType change
-  const handleLoadTypeChange = (e) => {
+  // Event handler for the Radio Change
+  const handleRadioChange = (e) => {
     const selectedValue = e.target.value * 1;
     setLoadType(selectedValue);
 
     // Update loadFee based on selected load type
     if (selectedValue === standardLoadType) {
       setLoadFee(defaultLoadFee);
+      setAvailableAmount( usdBalance * 0.99 );
     } else {
       setLoadFee(0);
+      setAvailableAmount( usdBalance );
     }
   };
 
@@ -95,17 +100,19 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
 
   function onSubmit( formData ) {
 
-    if (inputValue > 0)
+    if (inputValue > 0) {
       formData.fee = loadType === standardLoadType ? defaultLoadFee : 0;
+      formData.instant = loadType;
+    }
 
-    let title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span style="background-color: yellow">Delayed Load</span> 
+    let title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span>Delayed Load</span> 
                  <span style="font-weight: bold">${inputValue} USD</span> to your debit card?</span>`;
     let feeAmount = 0;
     if( loadType === standardLoadType ) {
       feeAmount = inputValue / 100;
-      title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span style="background-color: yellow">Standard Load</span> 
+      title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span>Standard Load</span> 
                <span style="font-weight: bold">${inputValue} USD</span> to your debit card?
-               <span style="background-color: yellow">Standard Load fee: <span style="font-weight: bold">${feeAmount.toFixed(2)} USD</span></span></span>`;
+               <span>Standard Load fee: <span style="font-weight: bold">${feeAmount.toFixed(2)} USD</span></span></span>`;
     }
 
     if( inputValue > 0 ){
@@ -120,11 +127,10 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
         if (result.isConfirmed){
 
           // Check validation for balance
-          let totalAmount = Math.floor(inputValue * 100 + feeAmount * 100) / 100;
-          if( totalAmount > usdBalance ){
+          if( inputValue > (Math.floor(availableAmount * 100) / 100) ){
             Swal.fire({
               title: 'Insufficient balance',
-              html: `Your balance ${usdBalance} USD is insufficient <br/>to load ${totalAmount} USD.`,
+              html: `Your balance ${(Math.floor(availableAmount * 100) / 100)} USD is insufficient <br/>to load ${inputValue} USD.`,
               icon: "warning",
             }).then(function () {});
             return;
@@ -205,23 +211,42 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
                   />
                   <div className="invalid-feedback">{errors.amount?.message}</div>
                   <div>Minimum Load Amount : {minimum} USD</div>
-                  <div className="">Available amount : {(Math.floor(usdBalance * 100) / 100).toFixed(2)} USD</div>
-                </div>
+                  <div className="">Available amount : {(Math.floor(availableAmount * 100) / 100).toFixed(2)} USD</div>
+                  </div>
 
                 <h4 className="mt-3">
                   <b>Select Load Type</b>
                 </h4>
-                <div className="mb-5">
-                  <select
-                      name="instant"
-                      {...register('instant')}
-                      value={loadType}
-                      onChange={handleLoadTypeChange}
-                      className="form-control"
-                  >
-                    <option value="1">Standard</option>
-                    <option value="0">Delayed</option>
-                  </select>
+
+                <div className={`mb-5 ${styles.inputContainer}`}>
+                  <div className={styles.radioContainer}>
+                    <label className={styles.formLabel}>
+                      <input
+                          type="radio"
+                          name="instant"
+                          value="1"
+                          checked={loadType === 1}
+                          onChange={handleRadioChange}
+                      />
+                      <span className={styles.formSpan}>Standard</span>
+                    </label>
+                    <span className={styles.textBelow}>* Loads within 24 hours</span>
+                    <span className={styles.textBelow}>* 1% load fee</span>
+                  </div>
+                  <div className={styles.radioContainer}>
+                    <label className={styles.formLabel}>
+                      <input
+                          type="radio"
+                          name="instant"
+                          value="0"
+                          checked={loadType === 0}
+                          onChange={handleRadioChange}
+                      />
+                      <span className={styles.formSpan}>Delayed</span>
+                    </label>
+                    <span className={styles.textBelow}>* Loads within 72 hours</span>
+                    <span className={styles.textBelow}>* 0% load fee</span>
+                  </div>
                 </div>
 
                 <input
