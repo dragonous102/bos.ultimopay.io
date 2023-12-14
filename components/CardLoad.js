@@ -258,7 +258,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
                 />
 
                 <button type="submit" className="btn withdrwcstm-btn mt-4 col-sm-3"
-                        //disabled={!!(formState.isSubmitting || errors.amount)}
+                        disabled={!!(formState.isSubmitting || errors.amount)}
                 >
                   LOAD {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                 </button>
