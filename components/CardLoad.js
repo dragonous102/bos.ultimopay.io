@@ -19,7 +19,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
   const [inputValue, setInputValue] = useState(0);
   const [loadType, setLoadType] = useState(standardLoadType);
   const [loadFee, setLoadFee] = useState(defaultLoadFee);
-  const [availableAmount, setAvailableAmount] = useState(usdBalance * 0.99);
+  const [availableAmount, setAvailableAmount] = useState(usdBalance / 1.01);
   const minimum = 100;
 
 
@@ -65,7 +65,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
     // Update loadFee based on selected load type
     if (selectedValue === standardLoadType) {
       setLoadFee(defaultLoadFee);
-      setAvailableAmount( usdBalance * 0.99 );
+      setAvailableAmount( usdBalance / 1.01 );
     } else {
       setLoadFee(0);
       setAvailableAmount( usdBalance );
@@ -258,7 +258,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
                 />
 
                 <button type="submit" className="btn withdrwcstm-btn mt-4 col-sm-3"
-                        disabled={!!(formState.isSubmitting || errors.amount)}
+                        //disabled={!!(formState.isSubmitting || errors.amount)}
                 >
                   LOAD {formState.isSubmitting && <span className="spinner-border spinner-border-sm mr-1"></span>}
                 </button>
