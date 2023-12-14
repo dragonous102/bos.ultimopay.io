@@ -144,7 +144,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
       feeAmount = Math.ceil(feeAmount * 100) / 100;
       title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span>Standard Load</span> 
                <span style="font-weight: bold">${inputValue} USD</span> to your debit card?
-               <span>Standard Load fee: <span style="font-weight: bold">${feeAmount} USD</span></span></span>`;
+               <span>Standard Load fee: <span style="font-weight: bold">${feeAmount} USD </span></span></span>`;
     }
 
     if( inputValue > 0 ){
