@@ -25,8 +25,8 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
   function roundUpToTwoDecimalPlaces(value) {
     // Check if the value has more than two decimal places
     if ((value * 100) % 1 !== 0) {
-      // Round up to two decimal places
-      value = Math.ceil(value * 100) / 100;
+      // Round up to two decimal places unless the decimal part is .120
+      value = Math.floor(value * 100 + 0.001) / 100;
     }
     // Return the rounded value
     return value;
