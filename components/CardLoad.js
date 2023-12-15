@@ -22,6 +22,15 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
   const [availableAmount, setAvailableAmount] = useState(usdBalance / 1.01);
   const minimum = 100;
 
+  function roundUpToTwoDecimalPlaces(value) {
+    // Check if the value has more than two decimal places
+    if ((value * 100) % 1 !== 0) {
+      // Round up to two decimal places
+      value = Math.ceil(value * 100) / 100;
+    }
+    // Return the rounded value
+    return value;
+  }
 
   const handleInputChange = (event) => {
     let newValue = event.target.value;
@@ -140,8 +149,7 @@ function CardLoad({wallet ,  user , pendingTotal , allwallet , userInfo }) {
                  <span style="font-weight: bold">${inputValue} USD</span> to your debit card?</span>`;
     let feeAmount = 0;
     if( loadType === standardLoadType ) {
-      feeAmount = inputValue / 100;
-      feeAmount = Math.ceil(feeAmount * 100) / 100;
+      feeAmount = roundUpToTwoDecimalPlaces( inputValue / 100 );
       title = `<span style="font-size: smaller; font-weight: normal">Do you want to make a <span>Standard Load</span> 
                <span style="font-weight: bold">${inputValue} USD</span> to your debit card?
                <span>Standard Load fee: <span style="font-weight: bold">${feeAmount} USD </span></span></span>`;
