@@ -1,21 +1,22 @@
 import Link from 'next/link'
-import { useRouter } from 'next/router';
-import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
+import {useRouter} from 'next/router';
+import {useForm} from 'react-hook-form';
+import {yupResolver} from '@hookform/resolvers/yup';
 import * as Yup from 'yup';
-import { userService, alertService } from '/services';
-import { toast } from 'react-toastify';
+import {userService} from '/services';
+import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { useState, useEffect } from "react";
+import {useEffect, useState} from "react";
 import Swal from "sweetalert2";
+import { truncateFloat } from './Utils/calc.js';
 function UsdtWithdraw({wallet , id , user , twofa}) {
     const router = useRouter();
     const path = router.asPath.split('/');
     
     const fee = 20
-     //const bal = 621.657791;
+     //const bal = 161.7;
      const bal = parseFloat(wallet.data.balance.replace(',', ''));
-     const balanceIncFee = bal > 0 ? (bal - fee) / 1.001 : 0;
+     const balanceIncFee = bal > 0 ? Math.max(0, truncateFloat((bal - fee) / 1.001, 6)) : 0;
     const [inputValue, setInputValue] = useState(0);
     const [result, setResult] = useState(false);
     const [ifnotvalid, setIfnotvalid] = useState(true);
@@ -43,7 +44,7 @@ function UsdtWithdraw({wallet , id , user , twofa}) {
       console.log('balanceIncFee' ,balanceIncFee);
       if(parseFloat(newValue) >= parseFloat(minimum))
       {
-        if(parseFloat(balanceIncFee.toFixed(6)) < parseFloat(newValue))
+        if(balanceIncFee < parseFloat(newValue))
         {
           console.log(balanceIncFee);
 
@@ -58,8 +59,8 @@ function UsdtWithdraw({wallet , id , user , twofa}) {
         setError('amount' , {message : `Amount should be greater than ${minimum}`})
         setIfnotvalid(true)
       }
-      const calculatedValue = (parseFloat(newValue) * 0.001) + fee;
-      calculatedValue > 0 ? setResult(calculatedValue.toFixed(6)+` ${id}`) : setResult(``);
+      const calculatedValue = truncateFloat(parseFloat(newValue) * 0.001 + fee, 6);
+      calculatedValue > 0 ? setResult(calculatedValue +` ${id}`) : setResult(``);
 
     };
     const handleKeyDown = (event) => {

@@ -8,16 +8,17 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { truncateFloat } from './Utils/calc.js';
 function BtcWithdraw({wallet , id , user , twofa}) {
     const router = useRouter();
     const path = router.asPath.split('/');
     const [title, setTitle] = useState(wallet.title);
-    //const bal = 0.448841;
+    //const bal = 161.7;
     const bal = parseFloat(wallet.data.balance.replace(',', ''));
     const fee = 20
     const minimum = 70 ;
     
-    const balanceIncFee = bal > 0 ? (bal - fee) / 1.001 : 0;
+    const balanceIncFee = Math.max(0, bal > 0 ? truncateFloat((bal - fee) / 1.001, 6) : 0);
     
     const [inputValue, setInputValue] = useState(0);
     const [result, setResult] = useState(false);
@@ -48,7 +49,7 @@ function BtcWithdraw({wallet , id , user , twofa}) {
       
       if(parseFloat(newValue) >= parseFloat(minimum))
       {
-        if(parseFloat(balanceIncFee.toFixed(float)) < parseFloat(newValue) )
+        if(balanceIncFee < parseFloat(newValue) )
         {
           console.log(balanceIncFee);
 
@@ -64,8 +65,8 @@ function BtcWithdraw({wallet , id , user , twofa}) {
         setError('amount' , {message : `Amount should be greater than ${minimum}`})
         setIfnotvalid(true)
       }
-      const calculatedValue = (parseFloat(newValue) * 0.001) + fee;
-      calculatedValue > 0 ? setResult(calculatedValue.toFixed(3)+` ${id}`) : setResult(``);
+      const calculatedValue = truncateFloat((parseFloat(newValue) * 0.001) + fee, 6);
+      calculatedValue > 0 ? setResult(calculatedValue +` ${id}`) : setResult(``);
 
     };
     const handleKeyDown = (event) => {
@@ -103,7 +104,7 @@ function BtcWithdraw({wallet , id , user , twofa}) {
     function onSubmit(user) {
       if(parseFloat(inputValue) >= parseFloat(minimum))
       {
-        if(parseFloat(balanceIncFee.toFixed(float)) < parseFloat(inputValue))
+        if(parseFloat(balanceIncFee) < parseFloat(inputValue))
         {
           console.log(balanceIncFee);
 

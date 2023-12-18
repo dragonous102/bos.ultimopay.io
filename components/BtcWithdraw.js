@@ -8,14 +8,15 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
+import { truncateFloat } from './Utils/calc.js';
 function BtcWithdraw({wallet , id , user , twofa}) {
     const router = useRouter();
     const path = router.asPath.split('/');
     const [title, setTitle] = useState(wallet.title);
-    //const bal = 0.448841;
+    //const bal = 79.7;
     const bal = parseFloat(wallet.data.balance.replace(',', ''));
     
-     const balanceIncFee = (bal > 0 ? (bal - 0.001) / 1.001 : 0);
+     const balanceIncFee = (bal > 0 ? Math.max(0, truncateFloat((bal - 0.001) / 1.001, 8)) : 0);
     const [inputValue, setInputValue] = useState(0);
     const [result, setResult] = useState(false);
     const [ifnotvalid, setIfnotvalid] = useState(true);
@@ -40,7 +41,7 @@ function BtcWithdraw({wallet , id , user , twofa}) {
       
       if(newValue >= minimum)
       {
-        if(balanceIncFee.toFixed(8) < newValue )
+        if(balanceIncFee < newValue )
         {
           console.log(balanceIncFee);
 
@@ -55,8 +56,8 @@ function BtcWithdraw({wallet , id , user , twofa}) {
         setError('amount' , {message : `Amount should be greater than ${minimum}`})
         setIfnotvalid(true)
       }
-      const calculatedValue = ((parseFloat(newValue) * 0.1) / 100) + 0.001;
-      calculatedValue > 0 ? setResult(calculatedValue.toFixed(3)+` BTC`) : setResult(``);
+      const calculatedValue = truncateFloat(parseFloat(newValue) * 0.001 + 0.001, 6);
+      calculatedValue > 0 ? setResult(calculatedValue +` BTC`) : setResult(``);
 
     };
     const handleKeyDown = (event) => {
@@ -94,7 +95,7 @@ function BtcWithdraw({wallet , id , user , twofa}) {
     function onSubmit(user) {
       if(inputValue >= minimum)
       {
-        if(balanceIncFee.toFixed(8) < inputValue)
+        if(balanceIncFee < inputValue)
         {
           console.log(balanceIncFee);
 
@@ -243,7 +244,7 @@ function BtcWithdraw({wallet , id , user , twofa}) {
           </tr>
           <tr>
             <td>Available amount for withdrawal </td>
-            <td>{balanceIncFee.toFixed(8)} BTC </td>
+            <td>{balanceIncFee} BTC </td>
           </tr>
         </tbody>
       </table>
