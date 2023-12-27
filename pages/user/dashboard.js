@@ -393,7 +393,7 @@ const Dashboard = () => {
       </div>
       </div>
 
-      <div className="row pe-4 ps-4 justify-content-center mt-3">
+      <div className="row pe-4 ps-4 mt-3">
       <div className="col-xl-3 col-md-6 col-frm p-2 ">
         <div className="main-frm">
           
@@ -561,7 +561,7 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
-      <div className="col-xl-3 col-md-6 col-frm p-2">
+      {/*<div className="col-xl-3 col-md-6 col-frm p-2">
         <div className="main-frm">
           <div className="row p-3 align-items-center">
             <div className="col-sm-6 col-6">
@@ -613,14 +613,14 @@ const Dashboard = () => {
                 Sell 
               </Link>
             </div>
-            {/* <div className="col-sm-12 mb-2">
+             <div className="col-sm-12 mb-2">
               <Link className="cstm-lbl" href={`/user/load-card/${wallet ? wallet[1].currency : ''}`}>
                 Load to Card 
               </Link>
-            </div> */}
+            </div>
           </div>
         </div>
-      </div>
+      </div>*/}
       
     </div>
   </div>

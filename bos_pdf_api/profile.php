@@ -45,7 +45,7 @@ if (!isset($_SESSION['ultimopay_exchange_access_token'])) {
 
 		// begin add 20230326 busd,usdc k.o.
 
-		unset($_SESSION['ultimopay_busd_address']);
+		/* unset($_SESSION['ultimopay_busd_address']); */
 
 		unset($_SESSION['ultimopay_usdc_address']);
 

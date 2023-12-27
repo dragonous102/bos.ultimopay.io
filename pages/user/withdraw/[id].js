@@ -7,7 +7,7 @@ import WalletCommon  from '/components/WalletCommon';
 import BtcWithdraw  from '/components/BtcWithdraw';
 import UsdtWithdraw  from '/components/UsdtWithdraw';
 import UsdcWithdraw  from '/components/UsdcWithdraw';
-import BusdWithdraw  from '/components/BusdWithdraw';
+/*import BusdWithdraw  from '/components/BusdWithdraw';*/
 import 'react-toastify/dist/ReactToastify.css';
 
 import UserLayout from '../layout/UserLayout'
@@ -74,6 +74,13 @@ const withdrawPage = ({ id }) => {
     }
   
     console.log(wallet)
+
+    // Redirect to the previous page if the id is 'BUSD'
+    useEffect(() => {
+        if (id === 'BUSD') {
+            router.back();
+        }
+    }, [id]);
   return (
     <UserLayout>
       {user && wallet && deposit ? (
@@ -85,7 +92,7 @@ const withdrawPage = ({ id }) => {
       ) :''}
       {id == 'USDT' ? (<UsdtWithdraw wallet={wallet} id={id} user={user} twofa={twofa} />):''}
       {id == 'USDC' ? (<UsdcWithdraw wallet={wallet} id={id} user={user} twofa={twofa} />):''}
-      {id == 'BUSD' ? (<BusdWithdraw wallet={wallet} id={id} user={user} twofa={twofa} />):''}
+      {/*{id == 'BUSD' ? (<BusdWithdraw wallet={wallet} id={id} user={user} twofa={twofa} />):''}*/}
     </main>
     
  ): (

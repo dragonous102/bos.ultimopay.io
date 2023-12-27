@@ -482,7 +482,7 @@ const UserLayout = ({ children }) => {
                       </nav>
                     </div>
                   </nav>
-                  <nav
+                  {/*<nav
                     className="sb-sidenav-menu-nested nav accordion"
                     id="sidenavAccordionPages"
                   >
@@ -534,7 +534,7 @@ const UserLayout = ({ children }) => {
                       </Link>
                       </nav>
                     </div>
-                  </nav>
+                  </nav>*/}
                 </div>
                 <a className="nav-link" href="#" onClick={() => {
                     const width = 500;

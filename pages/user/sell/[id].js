@@ -67,6 +67,13 @@ const sellPage = ({ id }) => {
     }
   
     console.log(wallet)
+    // Redirect to the previous page if the id is 'BUSD'
+    useEffect(() => {
+        if (id === 'BUSD') {
+            router.back();
+        }
+    }, [id]);
+
   return (
     <UserLayout>
       {user && wallet  ? (

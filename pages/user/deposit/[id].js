@@ -97,7 +97,13 @@ const Deposit = ({ id }) => {
           setSendState(false)
         });
     }
-    
+
+    // Redirect to the previous page if the id is 'BUSD'
+    useEffect(() => {
+        if (id === 'BUSD') {
+            router.back();
+        }
+    }, [id]);
   return (
     <UserLayout>
       {user && wallet && deposit ? (
@@ -130,7 +136,7 @@ may result in loss.
           </div>
         </div>
       </div>) : ''}
-      {id === 'BUSD' ? (
+      {/*{id === 'BUSD' ? (
       <div className="container-fluid px-4">
         <div className="row pe-4 ps-5 pt-5 pb-5">
           <div className="col-sm-12">
@@ -148,7 +154,7 @@ may result in loss.
             </div>
           </div>
         </div>
-      </div>) : ''}
+      </div>) : ''}*/}
       {id === 'USDC' ? (
       <div className="container-fluid px-4">
         <div className="row pe-4 ps-5 pt-5 pb-5">
