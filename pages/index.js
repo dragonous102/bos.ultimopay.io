@@ -247,7 +247,7 @@ export default function login() {
                         <span className="spinner-border spinner-border-sm mr-1"></span>
                       ) : ''}
                       <font>ENTER</font>{" "}
-                      <img src="assets/img/right.png" width="30px;" />
+                      <img src="assets/img/right.png" width="30px;" style={{ display: 'inline-block' }} />
                     </button>
                   </div>
                   <div className="mb-2 text-center">
