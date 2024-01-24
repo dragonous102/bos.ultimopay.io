@@ -6,6 +6,7 @@ import withAuth from '/hooks/withAuth';
 import UserLayout from './layout/UserLayout';
 import DataTable from '/components/DataTable';
 import cookie from 'js-cookie';
+import OneTimeNotification from "../../components/OneTimeNotification";
 
 
 
@@ -84,6 +85,7 @@ const Dashboard = () => {
       accessor: 'post_balance',
     },
   ];
+  const [showModal, setShowModal] = useState(true);
   const getCardBalance = (userr) => {
     delete userr.wallet;
     delete userr.expires_in;
@@ -205,8 +207,11 @@ const Dashboard = () => {
       setisLoading(false)
     })
 }
-            
-    
+
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
+
   useEffect(() => {
     async function fetchData() {
       const y = localStorage.getItem('user')
@@ -296,6 +301,7 @@ const Dashboard = () => {
     }
   return (
     <UserLayout>
+      <OneTimeNotification showModal={showModal} closeModal={() => setShowModal(false)} />
       {user && wallet ? (
       <main>
   <div className="container-fluid px-4 pt-5">

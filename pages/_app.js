@@ -1,3 +1,4 @@
+import '../styles/globals.css';
 import NextNProgress from 'nextjs-progressbar';
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';

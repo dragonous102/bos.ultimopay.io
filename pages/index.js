@@ -10,11 +10,14 @@ import { useState, useEffect } from "react";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cookie from 'js-cookie';
+import OneTimeNotification from "../components/OneTimeNotification";
+
 
 export default function login() {
   const router = useRouter();
   const [showNewField, setShowNewField] = useState(false);
   const [isLoad, setisLoad] = useState(false);
+  const [showModal, setShowModal] = useState(true);
   const validationSchema = Yup.object().shape({
     email_address: Yup.string()
       .email("Please enter a valid email address")
@@ -33,6 +36,10 @@ export default function login() {
   };
   const { register, handleSubmit, formState, setError } = useForm(formOptions);
   const { errors } = formState;
+
+  useEffect(() => {
+    setShowModal(true);
+  }, []);
 
   async function onSubmit(user) {
     setisLoad(true)
@@ -157,8 +164,9 @@ export default function login() {
   }
   return (
     <Main>
-      <section className="height-con">
-        <div className="container">
+      <OneTimeNotification showModal={showModal} closeModal={() => setShowModal(false)} />
+      <section className="height-con ">
+        <div className="container relative">
           <div className="crow login-main">
             <div className="col-sm-6 m-auto col-frm">
               <div className="main-frm">
