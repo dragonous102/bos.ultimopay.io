@@ -15,7 +15,7 @@
   
   a.navbar-brand {
       position: absolute;
-      z-index: 999999;
+      z-index: 1000;
       background: #fff;
       width: 10%;
       left: 45%;

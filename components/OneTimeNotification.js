@@ -2,34 +2,53 @@ import React, { useEffect } from 'react';
 
 const OneTimeNotification = ({ showModal, closeModal }) => {
   useEffect(() => {
-  if (showModal) {
-      // Add any additional logic for modal visibility or animations
+    if (showModal) {
+      document.getElementById('boostrapModalLunch').click();
     }
   }, [showModal]);
 
   return (
-    <div className={`fixed  z-[1000000] inset-0 overflow-y-auto ${showModal ? 'block' : 'hidden'}`}>
-      <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-        {/* Background overlay */}
-        <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-          <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-        </div>
+    <div className="d-flex justify-content-center align-items-center">
+      <button
+        type="button"
+        className="btn btn-primary"
+        data-bs-toggle="modal"
+        data-bs-target="#notificationModal"
+        id="boostrapModalLunch"
+        hidden={true}
+      >
+        Launch demo modal
+      </button>
 
-        {/* Modal panel */}
-        <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all duration-500 sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-info text-white p-3 rounded-t-lg">
-            <h3 className="text-lg font-semibold">Important Notice</h3>
-          </div>
-
-          {/* Modal content */}
-          <div className="bg-white p-6">
-            <div className="mb-4">
-              <p className="text-lg fw-bold mb-2">
+      <div
+        className="modal fade"
+        id="notificationModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+        data-bs-backdrop="static"
+      >
+        <div className="modal-dialog"
+             style={{ zIndex: 1001 }}>
+          <div className="modal-content">
+            <div className="modal-header bg-info text-white">
+              <h5 className="modal-title" id="exampleModalLabel">
                 Important Notices:
-              </p>
-              <p className="text-lg mb-2">
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body p-4">
+              <h5 className=" fw-bold mb-2">
+                Important Notices:
+              </h5>
+              <h5 className="text-lg mb-2">
                 Maintenance notification
-              </p>
+              </h5>
               <p>
                 We are planning to perform system maintenance at the end of January.
               </p>
@@ -49,10 +68,11 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
                 * Past deposits, withdrawals, and buysell reports will not be displayed for several days.
               </p>
             </div>
-            <div className="text-right">
+            <div className="modal-footer">
               <button
-                onClick={closeModal}
-                className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                type="button"
+                className="btn btn-info text-white"
+                data-bs-dismiss="modal"
               >
                 I understand
               </button>
