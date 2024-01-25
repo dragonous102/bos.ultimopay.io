@@ -17,7 +17,7 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
 
         {/* Modal panel */}
         <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all duration-500 sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-          <div className="bg-warning text-white p-3 rounded-t-lg">
+          <div className="bg-info text-white p-3 rounded-t-lg">
             <h3 className="text-lg font-semibold">Important Notice</h3>
           </div>
 
@@ -52,7 +52,7 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
             <div className="text-right">
               <button
                 onClick={closeModal}
-                className="bg-warning hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                className="bg-info hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
               >
                 I understand
               </button>
