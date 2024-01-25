@@ -5,8 +5,7 @@ import { userService, alertService } from '/services';
 import withAuth from '/hooks/withAuth';
 import UserLayout from './layout/UserLayout';
 import DataTable from '/components/DataTable';
-import cookie from 'js-cookie';
-import OneTimeNotification from "../../components/OneTimeNotification";
+
 
 
 
@@ -301,7 +300,6 @@ const Dashboard = () => {
     }
   return (
     <UserLayout>
-      <OneTimeNotification showModal={showModal} closeModal={() => setShowModal(false)} />
       {user && wallet ? (
       <main>
   <div className="container-fluid px-4 pt-5">
