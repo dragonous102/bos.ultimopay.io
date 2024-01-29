@@ -56,12 +56,14 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
                 Scheduled start: 2024/01/29 10:00 (UTC)<br/>
                 Scheduled completion: 2024/01/30 06:00 (UTC)
               </p>
+              <br/>
               <p className="mb-4">
                 We apologize for any inconvenience caused by the sudden change in maintenance schedule.
               </p>
               <p className="mb-4">
                 Please be careful not to make any deposits or withdrawals during maintenance.
               </p>
+              <br/>
               <p>
                 Please note the following after maintenance.
               </p>
