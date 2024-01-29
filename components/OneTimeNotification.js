@@ -53,7 +53,7 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
                 We will notify you of any changes to the maintenance date and time.
               </p>
               <p>
-                Scheduled start: 2024/01/29 10:00 (UTC)
+                Scheduled start: 2024/01/29 10:00 (UTC)<br/>
                 Scheduled completion: 2024/01/30 06:00 (UTC)
               </p>
               <p className="mb-4">
