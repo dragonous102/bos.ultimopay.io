@@ -50,10 +50,14 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
                 Maintenance notification
               </h5>
               <p>
-                We are planning to perform system maintenance at the end of January.
+                We will notify you of any changes to the maintenance date and time.
               </p>
               <p>
-                Scheduled date and time: January 29, 2024 01:00-06:00 (UTC)
+                Scheduled start: 2024/01/29 10:00 (UTC)
+                Scheduled completion: 2024/01/30 06:00 (UTC)
+              </p>
+              <p className="mb-4">
+                We apologize for any inconvenience caused by the sudden change in maintenance schedule.
               </p>
               <p className="mb-4">
                 Please be careful not to make any deposits or withdrawals during maintenance.
@@ -62,10 +66,10 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
                 Please note the following after maintenance.
               </p>
               <p>
-                * Please obtain a new deposit address as the deposit address you used in the past will no longer be usable.
+                *Please obtain a new deposit address as the deposit address you used in the past will no longer be usable.
               </p>
               <p>
-                * Past deposits, withdrawals, and buysell reports will not be displayed for several days.
+                *Past deposits, withdrawals, and buysell reports will not be displayed for several days.
               </p>
             </div>
             <div className="modal-footer">
