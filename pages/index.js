@@ -164,7 +164,7 @@ export default function login() {
   }
   return (
     <Main>
-      <OneTimeNotification showModal={showModal} closeModal={() => setShowModal(false)} />
+      {/*<OneTimeNotification showModal={showModal} closeModal={() => setShowModal(false)} />*/}
       <section className="height-con ">
         <div className="container relative">
           <div className="crow login-main">

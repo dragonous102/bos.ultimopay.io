@@ -49,21 +49,19 @@ const OneTimeNotification = ({ showModal, closeModal }) => {
               <h5 className="text-lg mb-2">
                 Maintenance notification
               </h5>
-              <p>
+              <p className="mb-4">
                 We will notify you of any changes to the maintenance date and time.
               </p>
-              <p>
+              <p className="mb-4">
                 Scheduled start: 2024/01/29 10:00 (UTC)<br/>
                 Scheduled completion: 2024/01/30 06:00 (UTC)
               </p>
-              <br/>
               <p className="mb-4">
                 We apologize for any inconvenience caused by the sudden change in maintenance schedule.
               </p>
               <p className="mb-4">
                 Please be careful not to make any deposits or withdrawals during maintenance.
               </p>
-              <br/>
               <p>
                 Please note the following after maintenance.
               </p>
