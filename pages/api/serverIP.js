@@ -2,6 +2,7 @@ import axios from 'axios';
 import os from 'os';
 
 export default async (req, res) => {
+    console.log("here: requesting")
     try {
 
         // Get the server IP address
