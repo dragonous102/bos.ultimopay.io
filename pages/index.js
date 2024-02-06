@@ -48,13 +48,11 @@ export default function login() {
       .runApi("signin/", user)
       .then((res) => {
         if (res.data.result == "success") {
-          console.log(res.data.signinResponse);
           userService.runApi("check2FA/", res.data.signinResponse).then((d) => {
             user.group_id = '4ADFC35E-7743-45FC-93EF-7DDC1E2BC291';
             user.auth_token = res.data.signinResponse.auth_token;
             user.expires_second =10*60;
             user.kloginTime =Date().toLocaleString(); // Capture the time of the klogin event
-             console.log(user)
             if (d.data["2FAStatus"].status == "enabled") {
               setShowNewField(true)
               

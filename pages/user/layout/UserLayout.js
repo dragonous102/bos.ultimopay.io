@@ -33,9 +33,8 @@ const UserLayout = ({ children }) => {
   useEffect(() => {
     const y = localStorage.getItem('user')
     const userser = JSON.parse(y)
-    const user = userser.res.data.signinResponse
-      setUserData(user);
-    console.log(user)
+    const user = userser.res.data.signinResponse;
+    setUserData(user);
     getUserStatus(user);
   }, [router])
   const getUserStatus = (userrr ) => {
@@ -43,15 +42,9 @@ const UserLayout = ({ children }) => {
     delete userrr.wallet;
     setKycStatus(0)
     userService.getUserStatus(userrr , 'both').then((d) => {
-         console.log(d)
-         setKycStatus(d.status)
-         
-         setKycData(d.data)
-       
-         
+         setKycStatus(d.status);
+         setKycData(d.data);
     }).catch((d) => {
-    
-      
     })
   }
   

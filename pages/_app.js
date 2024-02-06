@@ -49,7 +49,6 @@ function MyApp({ Component, pageProps }) {
     fetchClientIP();
   }, [ServerIP]);
 
-  console.log(clientIP)
   const WrappedComponent = RestrictedPage(Component, clientIP);
 
   return (

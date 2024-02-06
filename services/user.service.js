@@ -111,7 +111,6 @@ function getDatePhpFormat(currentDate) {
 function getUserStatus(userrr, type = 'both') {
   return new Promise((resolve, reject) => {
     runApi(`updateUserStatus/`, userrr).then((response) => {
-      console.log('user_info', response.data.updateStatusResponse);
       const resd = response.data.updateStatusResponse;
 
       let status = 0;

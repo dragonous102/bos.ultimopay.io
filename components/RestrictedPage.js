@@ -18,10 +18,6 @@ const allowedIPs = [
 const RestrictedPage = (PageComponent, clientIP) => {
   const WithIPCheck = ({ ...pageProps }) => {
     const allowed = allowedIPs.includes(clientIP);
-    console.log(clientIP);
-    // if (!allowed) {
-    //   return <div>Access Denied</div>;
-    // }
 
     return <PageComponent {...pageProps} />;
   };

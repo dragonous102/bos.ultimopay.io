@@ -88,25 +88,17 @@ const Dashboard = () => {
   const getCardBalance = (userr) => {
     delete userr.wallet;
     delete userr.expires_in;
-        userService.runApi('cardBalance/' , userr).then((d) => {
+        /*userService.runApi('cardBalance/' , userr).then((d) => {
               const resd = d.data.cardBalanceResponse;
-              // console.log('jinhjik'.d.data);
               console.log('jinhjik'.resd);
-              // resd.balance = parseFloat(resd.balance.replace(',', ''));
-              // resd.balance=0+23770.01;
               var gN=resd.balance;
               setCardBalance(resd.balance);
-              
-             
         }).catch((d) => {
-          console.log(d);
           setCardBalance(0.0);
-          // localStorage.removeItem('user')
-          // router.push('/');
           return null;
-        })
-   
-      }
+        })*/
+    setCardBalance(0.0);
+  }
   function getReport(type , userr) { 
     setisLoading(true)
     let newcol = reportcol;
@@ -127,25 +119,31 @@ const Dashboard = () => {
           return {
             ...col,
             Cell: ({ value, row }) => {
-              const { amount, currency, tx_amount , side} = row.original;
-              if (side === 'Buy') {
-                return (
-                  <>
-                    Buy {amount} {currency}
-                    <br />
-                    Paid amount {tx_amount.toFixed(2)} USD
-                  </>
-                );
-              } else if (side === 'Sell') {
-                return (
-                  <>
-                    Sell {amount} {currency}
-                    <br />
-                    Received amount {tx_amount.toFixed(2)} USD
-                  </>
-                );
+              const { amount, currency, side } = row.original;
+              const tx_amount = Number(row.original.tx_amount);
+              const numericAmount = Number(amount); // Convert amount to a number
+              if (!isNaN(numericAmount)) {
+                if (side === 'Buy') {
+                  return (
+                    <>
+                      Buy {numericAmount} {currency}
+                      <br />
+                      Paid amount {tx_amount.toFixed(2)} USD
+                    </>
+                  );
+                } else if (side === 'Sell') {
+                  return (
+                    <>
+                      Sell {numericAmount} {currency}
+                      <br />
+                      Received amount {tx_amount.toFixed(2)} USD
+                    </>
+                  );
+                } else {
+                  return numericAmount.toFixed(2); // Fallback for other cases
+                }
               } else {
-                return value;
+                return value; // Fallback if amount is not a number
               }
             },
           };
@@ -161,15 +159,19 @@ const Dashboard = () => {
     
     userr.type = type;
     userr.currency = 'USDT,BTC,USDC,BUSD';
-    // user.status = '1';
+
     userService.runApi("getReport/", userr)
     .then((res) => {
-      console.log(res)
+
+      // remove updated_date and instrument_id fields in response
+      const modifiedReportData = res.data.reportResponse.map(item => {
+        const { updated_date, instrument_id, ...newItem } = item;
+        return newItem;
+      });
       setCol(newcol);
-      setReportData(res.data.reportResponse);
-      setactive(type)
-      setisLoading(false)
-     
+      setReportData(modifiedReportData);
+      setactive(type);
+      setisLoading(false);
     })
 }
             
@@ -178,7 +180,6 @@ const Dashboard = () => {
     
     userService.runApi("cardLoadHistory/", userr)
     .then((res) => {
-      console.log(res)
       if(is_first ==0)
       {
         setReportData(res.data.cardLoadHistoryResponse);
@@ -273,26 +274,22 @@ const Dashboard = () => {
   };
  
  const walletBalance = (user) => {
-      userService.walletBalance(user).then((d) => {
-           console.log(d.data.wallet)
-           const resd = d.data.wallet;
-           const order = userService.getCurrencyOrder();
-           console.log(resd)
-            // Sort the array using the order
-            resd.sort((a, b) => order.indexOf(a.currency) - order.indexOf(b.currency));
-            resd[2].balance = parseFloat(resd[2].balance.replace(',', ''));
-            resd[1].balance = parseFloat(resd[1].balance.replace(',', ''));
-            resd[0].balance = parseFloat(resd[0].balance.replace(',', ''));
-            resd[3].balance = parseFloat(resd[3].balance.replace(',', ''));
-            resd[4].balance = parseFloat(resd[4].balance.replace(',', ''));
-
-           setWalletData(resd);
-           
-      }).catch((d) => {
-        localStorage.removeItem('user')
-        router.push('/');
-        return null;
-      })
+   userService.walletBalance(user).then((d) => {
+     const resd = d.data.wallet;
+     const order = userService.getCurrencyOrder();
+     // Sort the array using the order
+     resd.sort((a, b) => order.indexOf(a.currency) - order.indexOf(b.currency));
+     resd[2].balance = parseFloat(resd[2].balance.replace(',', ''));
+     resd[1].balance = parseFloat(resd[1].balance.replace(',', ''));
+     resd[0].balance = parseFloat(resd[0].balance.replace(',', ''));
+     resd[3].balance = parseFloat(resd[3].balance.replace(',', ''));
+     resd[4].balance = parseFloat(resd[4].balance.replace(',', ''));
+     setWalletData(resd);
+   }).catch((d) => {
+     localStorage.removeItem('user')
+     router.push('/');
+     return null;
+   })
     }
     function toFixed(num, decimalPlaces) {
       const multiplier = Math.pow(10, decimalPlaces);
