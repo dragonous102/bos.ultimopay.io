@@ -1,6 +1,5 @@
 import Link from 'next/link'
 import { useState, useEffect } from "react";
-import Main from './layout/Main'
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,6 +9,7 @@ YupPassword(Yup) // extend yup
 import { userService, alertService } from '/services';
 
 import Swal from 'sweetalert2';
+import Main from './layout/Main';
 export default function VerifySignup() {
   const router = useRouter();
   const [user, setUserData] = useState(null)
@@ -27,11 +27,10 @@ export default function VerifySignup() {
         localStorage.removeItem('verification-forgot')
         router.push('/register')
       }
-      const user = JSON.parse(userser.res.config.data)
+      console.log(userser);
+      const user = userser.res.data.resetPasswordResponse;
       setUserData(user);
     }
-    
-    
   }, [router])
   const validationSchema = Yup.object().shape({
   
@@ -72,7 +71,6 @@ export default function VerifySignup() {
   async function onSubmit(user ) {
     return userService.verifyResetCode(user)
         .then((res) => {
-           
             console.log(res.data)
             if(res.data.result == 'success')
             {
@@ -86,17 +84,11 @@ export default function VerifySignup() {
                   pathname: '/',
                   query: { success: true },
                 });
-                 
              })
-              
-              
             }
             else if(res.data.result == "failed")
             {
-              
               setError('verification_code', { message: 'Invalid Code' });
-              
-                
             }
         })
         .catch(alertService.error);

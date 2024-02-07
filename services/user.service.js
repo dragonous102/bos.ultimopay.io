@@ -208,20 +208,19 @@ function register(user) {
 
 }
 function forgot(user) {
-  //https://api.ultimopay.io/v1/resetPassword/
-
-  // const IPGlobal = window.wIPGlobal;
-
-  // return axios.post(`resetPassword/`, user, { headers: { 'X-Server-Ip': IPGlobal } });
-  // return axios.post(`resetPassword/`, user);
-  
   let reqdata = {
     ...user,
     url: 'resetPassword/'
   }
-  // console.log("reqdata", reqdata);
-  return fetch(`api/sendReq`, {method: 'POST', body: JSON.stringify(reqdata)});
-
+  return fetch(`api/sendReq`, {method: 'POST', body: JSON.stringify(reqdata)})
+    .then(response => response.json())
+    .then(data => {
+      return data; // Return the response data
+    })
+    .catch(error => {
+      console.error('Error in forgot API:', error);
+      throw error;
+    });
 }
 
 function verifyResetCode(user) {
