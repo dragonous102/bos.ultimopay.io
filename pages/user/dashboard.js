@@ -88,7 +88,7 @@ const Dashboard = () => {
   const getCardBalance = (userr) => {
     delete userr.wallet;
     delete userr.expires_in;
-        /*userService.runApi('cardBalance/' , userr).then((d) => {
+        userService.runApi('cardBalance/' , userr).then((d) => {
               const resd = d.data.cardBalanceResponse;
               console.log('jinhjik'.resd);
               var gN=resd.balance;
@@ -96,7 +96,7 @@ const Dashboard = () => {
         }).catch((d) => {
           setCardBalance(0.0);
           return null;
-        })*/
+        })
     setCardBalance(0.0);
   }
   function getReport(type , userr) { 
